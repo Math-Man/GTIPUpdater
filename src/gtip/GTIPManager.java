@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +25,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.poifs.property.Parent;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,51 +48,67 @@ public class GTIPManager
 		
 		ExcelUtil.setColNames(new String[] {"RESULT", "CODE IN XLS", "DESCRIPTION IN XLS", "XLS DIRECTORY", "CODE IN XML", "DESCRIPTION IN XML", "XML DIRECTORY"}, workbook, worksheet);
 		
+		/* Excel has a hard cap on the number of cell styles it can have in a single workbook (around 4000) so it is necessery to create the styles outside the loop*/
+		
+		CellStyle[] styles = new CellStyle[] {
+		ExcelUtil.genBasicCellStyle(IndexedColors.GREEN, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.LIGHT_ORANGE, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.ORANGE, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.BROWN, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.PINK, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.DARK_RED, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.YELLOW, HSSFColorPredefined.BLACK, workbook)
+		};
+		
+		
 		for(MatchInfo d : data) 
 		{
 			
 			
 			
-			if(d.getPair1() == null) {d.setPair1(new Pentuple("","","","",""));}
-			if(d.getPair2() == null) {d.setPair2(new Pentuple("","","","",""));}
+			if(d.getPair1() == null) {d.setPair1(new Hextuple("","","","","",""));}
+			if(d.getPair2() == null) {d.setPair2(new Hextuple("","","","","",""));}
 			
 			String[] dataArray = new String[]{d.getMatchLevel().toString(),(String)d.getPair1().getFirst(),(String)d.getPair1().getSecond(),(String)d.getPair1().getThird(),
 					(String)d.getPair2().getFirst(),(String)d.getPair2().getSecond(),(String)d.getPair2().getThird()};
-			ExcelUtil.AppendData(dataArray, workbook, worksheet);
+			//ExcelUtil.AppendData(dataArray, workbook, worksheet);
 			
 			MatchLevel mLevel = d.getMatchLevel();
+			
+			int CellStyles = workbook.getNumCellStyles();
 			
 			switch(mLevel) 
 			{
 			case MATCHING_CODE_MATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.GREEN, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[0], workbook, worksheet);
 				break;
 			case MATCHING_CODE_MISMATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.LIGHT_ORANGE, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[7], workbook, worksheet);
 				break;
 			case RELATIVE_MISMATCHING_CODE_MATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.LIGHT_ORANGE, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[1], workbook, worksheet);
 				break;
 			case RELATIVE_MISMATCHING_CODE_MISMATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.ORANGE, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[2], workbook, worksheet);
 				break;
 			case MISMATCHING_CODE_MATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.ORANGE, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[3], workbook, worksheet);
 				break;
 			case MISMATCHING_CODE_MISMATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[3], workbook, worksheet);
 				break;
 			case WRONG_CODE_TREE_MATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[3], workbook, worksheet);
 				break;
 			case NO_CODE_MATCHING_DESCRIPTION:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[6], workbook, worksheet);
 				break;
 			case NEW_ENTRY:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.BROWN, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[4], workbook, worksheet);
 				break;
 			default:
-				ExcelUtil.markLastRow(ExcelUtil.genBasicCellStyle(IndexedColors.GOLD, HSSFColorPredefined.BLACK, workbook), workbook, worksheet);
+				ExcelUtil.AppendAndStylize(dataArray, styles[5], workbook, worksheet);
 				break;
 			
 			
@@ -100,9 +120,9 @@ public class GTIPManager
 		
 	}		
 	
-	public static ArrayList<MatchInfo> findDifferences(ArrayList<Pentuple> xlsData, ArrayList<Pentuple> xmlData, double descriptionClosenessTolerance) throws InterruptedException, ExecutionException 
+	public static ArrayList<MatchInfo> findDifferences(ArrayList<Hextuple> xlsData, ArrayList<Hextuple> xmlData, double descriptionClosenessTolerance) throws InterruptedException, ExecutionException 
 	{
-		int NUMBER_OF_THREADS = 8;
+		int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors() + 1;
 		int NUMBER_OF_ITEMS = xlsData.size();
 		//TODO:Check starts with for code when finding matching descriptions, if the code has nothing to do with the description put a warning or something idfk 
 		
@@ -111,18 +131,19 @@ public class GTIPManager
 		ExecutorService exec = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 		List<Future<?>> futures = new ArrayList<Future<?>>(NUMBER_OF_ITEMS);
 		
+		Instant starts = Instant.now();
 		
 		
-		for(Pentuple dxls : xlsData) 
+		for(Hextuple dxls : xlsData) 
 		{
 			futures.add(exec.submit(new Runnable() {
-
+			
 				@Override
 				public void run() {
 
 				MatchLevel bestLevel = MatchLevel.NEW_ENTRY;	//Worst possible state initally
-			    Pentuple bestMatch = null;	//Most similar entry from the XMLs
-				for(Pentuple dxml : xmlData) 
+			    Hextuple bestMatch = null;	//Most similar entry from the XMLs
+				for(Hextuple dxml : xmlData) 
 				{
 					//Check similarity between the xls entry and the current xml entry
 					MatchLevel level = compareEntries(dxls, dxml, descriptionClosenessTolerance);
@@ -147,7 +168,14 @@ public class GTIPManager
 						}
 					}	
 				}
-				matchList.add(new MatchInfo(dxls, bestMatch, bestLevel));
+				MatchInfo minf = new MatchInfo(dxls, bestMatch, bestLevel);
+				if(bestLevel == MatchLevel.NO_CODE_MATCHING_DESCRIPTION || bestLevel == MatchLevel.NEW_ENTRY) 
+				{
+					//TODO: Show parents 100%
+					//System.out.println("Entry with no code, showing parent code!");
+				}
+				
+				matchList.add(minf);
 				System.out.println("Match added: #" + matchList.size());
 			
 				}}));
@@ -160,6 +188,8 @@ public class GTIPManager
 		}
 		exec.shutdown();
 		System.out.println("All Matches Processed");
+		Instant ends = Instant.now();
+		System.out.println("Time elapsed: " + Duration.between(starts, ends));
 		
 		return matchList;
 	}
@@ -172,13 +202,14 @@ public class GTIPManager
 	 * @param descriptionClosenessTolerance
 	 * @return
 	 */
-	public static MatchLevel compareEntries(Pentuple p1, Pentuple p2, double descriptionClosenessTolerance) 
+	public static MatchLevel compareEntries(Hextuple p1, Hextuple p2, double descriptionClosenessTolerance) 
 	{
 		
-		if(p1.getFirst().equals("") || p2.getFirst().equals("")) 
+		if(p1.getFirst().equals("") || p2.getFirst().equals("") || p1.getFirst() == null || p2.getFirst() == null) 
 		{
 			if(LetterPairSimilarity.compareStrings((String)p1.getSecond(), (String)p2.getSecond()) > descriptionClosenessTolerance) 
 			{
+				//TODO: PARENT için bak, kodu en uygun olan altı seç
 				return MatchLevel.NO_CODE_MATCHING_DESCRIPTION;
 			}
 			else 
@@ -206,7 +237,6 @@ public class GTIPManager
 		{
 			if((LetterPairSimilarity.compareStrings((String)p1.getSecond(), (String)p2.getSecond()) > descriptionClosenessTolerance)) // || ((String)p1.getSecond()).toLowerCase().contains(((String)p2.getSecond()).replace(":", "").toLowerCase()) || ((String)p2.getSecond()).toLowerCase().contains(((String)p1.getSecond()).replace(":", "").toLowerCase())
 			{
-				//Check tree here "WRONG_CODE_TREE_MATCHING_DESCRIPTION"
 				return MatchLevel.RELATIVE_MISMATCHING_CODE_MATCHING_DESCRIPTION;
 			}
 			else 
@@ -312,6 +342,7 @@ public class GTIPManager
 	}
 
 	
+	
 	private static String[] findParent(ArrayList<String[]> rowsData, int baseindex) 
 	{
 		//Find parent
@@ -327,10 +358,10 @@ public class GTIPManager
 	}
 	
 	
-	static ArrayList<Pentuple> genPentuplesFromSingleXLS(String dir) throws IOException
+	static ArrayList<Hextuple> genHextuplesFromSingleXLS(String dir) throws IOException
 	{
 		ArrayList<String[]> rowsData = getDataList(dir);
-		ArrayList<Pentuple> outputData = new ArrayList<Pentuple>();
+		ArrayList<Hextuple> outputData = new ArrayList<Hextuple>();
 		
 		int lastRootIndex = -1;
 		
@@ -343,7 +374,7 @@ public class GTIPManager
 			int level = org.apache.commons.lang3.StringUtils.countMatches(description, "-");
 			int selectable = -1;
 			int booter = rowsData.size();
-			String[] parent = findParent(rowsData, i);
+			//String[] parent = findParent(rowsData, i);
 		    	
 			//Check the description to be correct, combine rows if necessery (if the following row descriptions doesnt contains '-')
 		    int desct = 1;
@@ -383,8 +414,9 @@ public class GTIPManager
 				selectable = 1;
 			}
 
-			outputData.add(new Pentuple(code, description, dir, level+"", selectable+""));//currentCode, currentDescription, currentFile, currentLevel, currentSelectable
-			System.out.println(code + " " + description + " " + dir + " " + level + " " + selectable + " " + i);
+			Hextuple pip = new Hextuple(code, description, dir, level+"", selectable+"","");//parent[1]);
+			outputData.add(pip);//currentCode, currentDescription, currentFile, currentLevel, currentSelectable
+			//System.out.println(code + " " + description + " " + dir + " " + level + " " + selectable + " " + i);
 			//Skip desct# - 1 lines, since they are empty
 			i += desct - 1;
 			
@@ -395,32 +427,32 @@ public class GTIPManager
 	
 	
 	/**
-	 * Generates Pentuples from All files XLS files that match the format from "http://ggm.gtb.gov.tr/mevzuat/turk-gumruk-tarife-cetveli/2018-turk-gumruk-tarife-cetveli"
+	 * Generates Hextuples from All files XLS files that match the format from "http://ggm.gtb.gov.tr/mevzuat/turk-gumruk-tarife-cetveli/2018-turk-gumruk-tarife-cetveli"
 	 * @param scanDir
 	 * @param fileNameContains Common regex that is included in every file's name
 	 * @param fileNameEndsWith Format of the file (".xls"...)
 	 * @return
 	 * @throws IOException 
 	 */
-	static ArrayList<Pentuple> genPentuplesFromXLS(String scanDir, String fileNameContains, String fileNameEndsWith) throws IOException
+	static ArrayList<Hextuple> genHextuplesFromXLS(String scanDir, String fileNameContains, String fileNameEndsWith) throws IOException
 	{
 		List<String> allFiles = findFiles(scanDir, fileNameContains, fileNameEndsWith);
-		ArrayList<Pentuple> pentuples = new ArrayList<Pentuple>();
+		ArrayList<Hextuple> Hextuples = new ArrayList<Hextuple>();
 		
 		for(String file: allFiles) 
 		{
-			ArrayList<Pentuple> currentFileData = genPentuplesFromSingleXLS(file);
-			pentuples.addAll(currentFileData);
+			ArrayList<Hextuple> currentFileData = genHextuplesFromSingleXLS(file);
+			Hextuples.addAll(currentFileData);
 		}
 		
-		return pentuples;
+		return Hextuples;
 	}
 	
 	
-	static ArrayList<Pentuple> genPentuplesFromXML(String scanDir, boolean removePeriods) throws IOException, ParserConfigurationException, SAXException {
+	static ArrayList<Hextuple> genHextuplesFromXML(String scanDir, boolean removePeriods) throws IOException, ParserConfigurationException, SAXException {
 		
 		List<String> allFiles = findFiles(scanDir, "gtip", ".xml");
-		ArrayList<Pentuple> Tuples = new ArrayList<Pentuple>();
+		ArrayList<Hextuple> Tuples = new ArrayList<Hextuple>();
 
 		for (String file : allFiles) {
 			
@@ -471,7 +503,7 @@ public class GTIPManager
 					
 				}
 				//Add all tuples from all files to the list
-				Tuples.add(new Pentuple<String, String, String, String, String>(currentCode, currentDescription, currentFile, currentLevel, currentSelectable));
+				Tuples.add(new Hextuple<String, String, String, String, String, String>(currentCode, currentDescription, currentFile, currentLevel, currentSelectable, ""));
 			}
 		}
 		return Tuples;

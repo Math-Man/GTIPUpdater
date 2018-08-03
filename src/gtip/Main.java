@@ -45,16 +45,17 @@ public class Main {
 	public static void main(String[] args) throws IOException, AWTException, ParserConfigurationException, SAXException, InterruptedException, ExecutionException {
 		// TODO Auto-generated method stub
 		
-		ArrayList<Pentuple> ott = GTIPManager.genPentuplesFromSingleXLS("2018012.xls");
+		ArrayList<Hextuple> ott = GTIPManager.genHextuplesFromSingleXLS("2018012.xls");
 		
 		
 		
 		
 		List<String> allFiles = GTIPManager.findFiles("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
 		
-		ArrayList<Pentuple> BEGONETHOT = GTIPManager.genPentuplesFromXLS("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
 		
-		ArrayList<Pentuple> tot = GTIPManager.genPentuplesFromXML("D:\\Projects\\jguar_GIT_Set\\jprod\\UnityServer\\WebContent\\resources\\TRTR",true);
+		ArrayList<Hextuple> BEGONETHOT = GTIPManager.genHextuplesFromXLS("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
+		
+		ArrayList<Hextuple> tot = GTIPManager.genHextuplesFromXML("D:\\Projects\\jguar_GIT_Set\\jprod\\UnityServer\\WebContent\\resources\\TRTR",true);
 		
 		GTIPManager.compareEntries(BEGONETHOT.get(0), tot.get(121), 0.7);
 		

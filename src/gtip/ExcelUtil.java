@@ -164,6 +164,21 @@ public class ExcelUtil {
 		}	
 	}
 	
+	
+	
+	public static void AppendAndStylize(String[] Data, CellStyle style, HSSFWorkbook workbook, HSSFSheet worksheet) 
+	{
+		//CreationHelper createHelper = workbook.getCreationHelper();
+		HSSFRow currentRow = worksheet.createRow(worksheet.getPhysicalNumberOfRows());
+		for(int i = 0 ; i < Data.length; i++) 
+		{
+			HSSFCell c = currentRow.createCell(i, CellType.STRING);
+			c.setCellValue(Data[i]);
+			c.setCellStyle(style);
+		}	
+	}
+	
+	
 	/**
 	 * Appends given string array to a row with a cell style
 	 * @param Data
@@ -198,6 +213,8 @@ public class ExcelUtil {
             workbook.write(fos);
             return true;
         } catch (IOException e) {
+        	//Close excel 
+        	
             e.printStackTrace();
             return false;
         }
@@ -263,7 +280,7 @@ public class ExcelUtil {
 		}
 		return changeCount;
 	}
-	
+	//TODO: Take row from sheet and paint 
 	public static void markLastRow( CellStyle style, HSSFWorkbook workbook, HSSFSheet worksheet) 
 	{
 		HSSFRow lastRow = worksheet.getRow(worksheet.getLastRowNum());
