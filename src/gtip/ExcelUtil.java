@@ -109,9 +109,11 @@ public class ExcelUtil {
 		{
 			Cell c = cellIterator.next();
 			
+
 			//Data formatter
 			DataFormatter formatter = new DataFormatter();
 			String value = formatter.formatCellValue(c);
+
 			//c.getStringCellValue()
 			data.add(value);
 		}

@@ -1,5 +1,7 @@
 package gtip;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class LetterPairSimilarity {
@@ -36,6 +38,9 @@ public class LetterPairSimilarity {
 	   
 	   /** @return lexical similarity value in the range [0,1] */
 	      public static double compareStrings(String str1, String str2) {
+	    	  
+	    	  //Instant st= Instant.now();
+	    	  
 	          ArrayList pairs1 = wordLetterPairs(str1.toUpperCase());
 	          ArrayList pairs2 = wordLetterPairs(str2.toUpperCase());
 	          int intersection = 0;
@@ -51,6 +56,7 @@ public class LetterPairSimilarity {
 	                  }
 	              }
 	          }
+	          //System.out.println("Compare time: " + Duration.between(st, Instant.now()));
 	          return (2.0*intersection)/union;
 	      }
 	

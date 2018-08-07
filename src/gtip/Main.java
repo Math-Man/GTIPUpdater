@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -42,25 +43,44 @@ import org.xml.sax.SAXException;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException, AWTException, ParserConfigurationException, SAXException, InterruptedException, ExecutionException {
+	public static void main(String[] args) throws IOException, AWTException, ParserConfigurationException, SAXException, InterruptedException, ExecutionException, TransformerException {
 		// TODO Auto-generated method stub
 		
-		ArrayList<Hextuple> ott = GTIPManager.genHextuplesFromSingleXLS("2018012.xls");
+		ArrayList<Hextuple> ott = GTIPManager.genHextuplesFromSingleXLS("2018012.xls", 5);
 		
 		
+		
+		GTIPBuilder builder = new GTIPBuilder(true);
+		//builder.createEntry(ott.get(0));
+		builder.createEntriesFromList(ott);
+		builder.saveXml("test.xml");
 		
 		
 		List<String> allFiles = GTIPManager.findFiles("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
 		
+		int indx = 0;
+		for(String file : allFiles) 
+		{
+			int startRow = 5;
+			if(file.contains("99")) {startRow = 9;}
+			if(file.contains("29")) {startRow = 8;}
+			
+			ArrayList<Hextuple> ouchie = GTIPManager.genHextuplesFromSingleXLS(file, startRow);
+			builder.createEntriesFromList(ouchie);
+			builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + indx + ".xml");
+			builder.wipeXml();
+			indx++;
+		}
 		
-		ArrayList<Hextuple> BEGONETHOT = GTIPManager.genHextuplesFromXLS("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
+		
+		ArrayList<Hextuple> dat = GTIPManager.genHextuplesFromXLS("D:\\Projects\\GTIPW\\GTIPUpdater\\XLSFiles", "fasıl", ".xls");
 		
 		ArrayList<Hextuple> tot = GTIPManager.genHextuplesFromXML("D:\\Projects\\jguar_GIT_Set\\jprod\\UnityServer\\WebContent\\resources\\TRTR",true);
 		
-		GTIPManager.compareEntries(BEGONETHOT.get(0), tot.get(121), 0.7);
+		GTIPManager.compareEntries(dat.get(0), tot.get(121), 0.7, true);
 		
 		
-		ArrayList<MatchInfo> diffs = GTIPManager.findDifferences(BEGONETHOT, tot, 0.98);
+		ArrayList<MatchInfo> diffs = GTIPManager.findDifferences(dat, tot, 0.85, true);
 		
 		GTIPManager.generateReport(diffs);
 		
