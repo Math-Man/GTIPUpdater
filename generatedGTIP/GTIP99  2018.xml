@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<GTIPCODES>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9905.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Yerleşim yerini nakleden gerçek kişilere ait şahsi eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9919</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri:</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.11</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Evlilik nedeniyle serbest dolaşıma giren eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.12</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Miras yoluyla intikal eden eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.13</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Öğrenim amacıyla gelen öğrencilere ait eğitim malzemeleri ve ev eşyası</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.14</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Ölü ihtiva eden tabutlar, ölülere ait kül ihtiva eden kaplar ve dekoratif cenaze eşyası</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.15</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Kamu kurumları, hayır veya insani yardım kuruluşları tarafından getirilen eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.16</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Malül, sakatlar ve diğer engellilerin kullanımına mahsus eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.17</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Kriz hallerinde zarar görenlere gönderilen eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.18</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Kişisel eşya, yolcu beraberi eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.19</PARENTCODE>
+        <CODE>9919.00.00.00.19</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9930</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Deniz ve hava taşıtlarına verilen eşya:</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.30</PARENTCODE>
+        <CODE>9930.24.00.00.00</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>1 ila 24. fasıllardaki eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.30</PARENTCODE>
+        <CODE>9930.99.00.00.00</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri (27. Fasıl hariç)</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9931</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Açık denizde bulunan yapılardaki mürettebata veya yapılardaki motor, makine, cihaz gibi ekipmanın çalışması için verilen eşya:</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.31</PARENTCODE>
+        <CODE>9931.24.00.00.00</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>1 ila 24. fasıllardaki eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>99.31</PARENTCODE>
+        <CODE>9931.99.00.00.00</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri (27. Fasıl hariç)</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+</GTIPCODES>

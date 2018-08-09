@@ -10,14 +10,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +26,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
-import org.apache.poi.poifs.property.Parent;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.w3c.dom.Document;
@@ -42,15 +34,16 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.*;
-
-//TODO: Ignore description, absolute match description modes
 
 public class GTIPManager 
 {
-
-
+	/**
+	 * Generates an excel file from the given matchinfo list.
+	 * @param data
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static void generateReport(ArrayList<MatchInfo> data) throws FileNotFoundException, IOException 
 	{
 		HSSFWorkbook workbook = ExcelUtil.CreateExcelWorkbook();
@@ -59,13 +52,12 @@ public class GTIPManager
 		ExcelUtil.setColNames(new String[] {"RESULT", "CODE IN XLS", "DESCRIPTION IN XLS", "XLS DIRECTORY", "CODE IN XML", "DESCRIPTION IN XML", "XML DIRECTORY"}, workbook, worksheet);
 		
 		/* Excel has a hard cap on the number of cell styles it can have in a single workbook (around 4000) so it is necessery to create the styles outside the loop*/
-		
 		CellStyle[] styles = new CellStyle[] {
 		ExcelUtil.genBasicCellStyle(IndexedColors.GREEN, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.LIGHT_ORANGE, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.ORANGE, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.BLACK, workbook),
-		ExcelUtil.genBasicCellStyle(IndexedColors.PLUM, HSSFColorPredefined.BLACK, workbook),
+		ExcelUtil.genBasicCellStyle(IndexedColors.MAROON, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.PINK, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.DARK_RED, HSSFColorPredefined.BLACK, workbook),
 		ExcelUtil.genBasicCellStyle(IndexedColors.YELLOW, HSSFColorPredefined.BLACK, workbook)
@@ -74,9 +66,6 @@ public class GTIPManager
 		
 		for(MatchInfo d : data) 
 		{
-			
-			
-			
 			if(d.getPair1() == null) {d.setPair1(new Hextuple("","","","","",""));}
 			if(d.getPair2() == null) {d.setPair2(new Hextuple("","","","","",""));}
 			
@@ -93,14 +82,8 @@ public class GTIPManager
 				dataArray = new String[]{d.getMatchLevel().toString(),(String)d.getPair1().getFirst(),(String)d.getPair1().getSecond(),(String)d.getPair1().getThird(),
 						(String)d.getPair2().getFirst(),(String)d.getPair2().getSecond(),(String)d.getPair2().getThird()};
 			}
-			
-			
-			//ExcelUtil.AppendData(dataArray, workbook, worksheet);
-			
+
 			MatchLevel mLevel = d.getMatchLevel();
-			
-			int CellStyles = workbook.getNumCellStyles();
-			
 			switch(mLevel) 
 			{
 			case MATCHING_CODE_MATCHING_DESCRIPTION:
@@ -133,38 +116,34 @@ public class GTIPManager
 			default:
 				ExcelUtil.AppendAndStylize(dataArray, styles[5], workbook, worksheet);
 				break;
-			
-			
 			}
-			
 		}
 		
 		worksheet.createFreezePane(0, 1);
-		
-		ExcelUtil.SaveWorkbook(workbook, "report.xls");
-		
+		ExcelUtil.SaveWorkbook(workbook, System.getProperty("user.dir")+"\\report.xls");
 	}		
 	
+	/**
+	 * Compares XLS and XML files and measures the difference by using matchlevel enum
+	 * @param xlsData
+	 * @param xmlData
+	 * @param descriptionClosenessTolerance
+	 * @param useLevenshteinDistance
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
 	public static ArrayList<MatchInfo> findDifferences(ArrayList<Hextuple> xlsData, ArrayList<Hextuple> xmlData, double descriptionClosenessTolerance, boolean useLevenshteinDistance) throws InterruptedException, ExecutionException 
 	{
 		int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors() + 1;
 		int NUMBER_OF_ITEMS = xlsData.size();
-		//TODO:Check starts with for code when finding matching descriptions, if the code has nothing to do with the description put a warning or something idfk 
-		
+
 		ArrayList<MatchInfo> matchList = new ArrayList<MatchInfo>();
 		
 		ExecutorService exec = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 		List<Future<?>> futures = new ArrayList<Future<?>>(NUMBER_OF_ITEMS);
 		
 		Instant starts = Instant.now();
-		
-		
-		//Set<Hextuple> xlsSet = new LinkedHashSet<Hextuple>(xlsData);
-		//Set<Hextuple> xmlSet = new LinkedHashSet<Hextuple>(xmlData);
-		
-		
-		//CopyOnWriteArrayList<Hextuple> xlsSuper = new CopyOnWriteArrayList(xlsData);
-		//CopyOnWriteArrayList<Hextuple> xmlSuper = new CopyOnWriteArrayList(xmlData);
 		
 		CopyOnWriteArraySet<Hextuple> xlsSuper = new CopyOnWriteArraySet<Hextuple>(xlsData);
 		CopyOnWriteArraySet<Hextuple> xmlSuper = new CopyOnWriteArraySet<Hextuple>(xmlData);
@@ -175,7 +154,6 @@ public class GTIPManager
 			
 				
 				Instant t_s = Instant.now();
-				
 				@Override
 				public void run() {
 					
@@ -210,12 +188,8 @@ public class GTIPManager
 					}	
 				}
 				MatchInfo minf = new MatchInfo(dxls, bestMatch, bestLevel, false);
-				if(bestLevel == MatchLevel.NO_CODE_MATCHING_DESCRIPTION || bestLevel == MatchLevel.NEW_ENTRY) 
-				{
-					//TODO: Show parents 100%
-					minf.displayParentCodeInstead = true;
-					//System.out.println("Entry with no code, showing parent code!");
-				}
+				if(bestLevel == MatchLevel.NO_CODE_MATCHING_DESCRIPTION) {minf.displayParentCodeInstead = true;}
+				else if(bestLevel == MatchLevel.NEW_ENTRY && ((String)minf.getPair1().getFirst()).isEmpty()) {minf.displayParentCodeInstead = true;}
 				
 				matchList.add(minf);
 				System.out.println("Match added: #" + matchList.size());
@@ -246,8 +220,6 @@ public class GTIPManager
 	 */
 	public static MatchLevel compareEntries(Hextuple p1, Hextuple p2, double descriptionClosenessTolerance, boolean useLevenshteinDistance) 
 	{
-		
-		
 		//Check codes
 		String p1Code = (String)p1.getFirst();
 		String p2Code = (String)p2.getFirst();
@@ -256,13 +228,10 @@ public class GTIPManager
 		if(useLevenshteinDistance) {LevenshteinDistance dist = new LevenshteinDistance(); stringDiff = stringSimilarity((String)p1.getSecond(), (String)p2.getSecond(), dist);}
 		else {stringDiff = LetterPairSimilarity.compareStrings((String)p1.getSecond(), (String)p2.getSecond()); }
 
-		
-		
 		if(p1Code == null  || p2Code == null || p1Code.equals("") || p2Code.equals("")) 
 		{
 			if(stringDiff > descriptionClosenessTolerance) 
 			{
-				//TODO: PARENT için bak, kodu en uygun olan altı seç
 				return MatchLevel.NO_CODE_MATCHING_DESCRIPTION;
 			}
 			else 
@@ -283,7 +252,7 @@ public class GTIPManager
 		}
 		else if( ((p1Code).startsWith(p2Code) || (p2Code).startsWith(p1Code)) && (((p1Code).length() > 2) && ((p2Code).length() > 2))) 
 		{
-			if(stringDiff > descriptionClosenessTolerance) // || ((String)p1.getSecond()).toLowerCase().contains(((String)p2.getSecond()).replace(":", "").toLowerCase()) || ((String)p2.getSecond()).toLowerCase().contains(((String)p1.getSecond()).replace(":", "").toLowerCase())
+			if(stringDiff > descriptionClosenessTolerance) 
 			{
 				return MatchLevel.RELATIVE_MISMATCHING_CODE_MATCHING_DESCRIPTION;
 			}
@@ -296,7 +265,6 @@ public class GTIPManager
 		{
 			if(stringDiff > descriptionClosenessTolerance) 
 			{
-				//Wrong tree check here
 				if( ((p1Code).contains(p2Code) || (p2Code).contains(p1Code)) && (((p1Code).length() > 2) && ((p2Code).length() > 2)))
 				{
 					return MatchLevel.WRONG_CODE_TREE_MATCHING_DESCRIPTION;
@@ -342,7 +310,13 @@ public class GTIPManager
 	    //public int findByValue(int i) {for(MatchLevel value : this.values()) {if(value.getValue() == i) {return value.getValue();}}return Integer.MIN_VALUE;}
 	}
 
-	//Create a list of rows with data columns converted to strings in a string array
+	/**
+	 * Create a list of rows with data columns converted to strings in a string array
+	 * @param dir
+	 * @param startingRow
+	 * @return
+	 * @throws IOException
+	 */
 	private static ArrayList<String[]> getDataList(String dir, int startingRow) throws IOException 
 	{
 		HSSFWorkbook workbook = ExcelUtil.OpenExcelWorkbook(dir);
@@ -350,7 +324,6 @@ public class GTIPManager
 		
 		ArrayList<String[]> rowsData = ExcelUtil.ReadAllRows(workbook, worksheet, startingRow, worksheet.getPhysicalNumberOfRows());
 		ArrayList<String[]> filteredData = new ArrayList<String[]>();
-		
 		
 		//bug workaround, check if the code column has a non-numeric character, if so push the column to description and leave the code column blank
 		for(String[] s : rowsData) 
@@ -373,20 +346,17 @@ public class GTIPManager
 		
 		rowsData.clear();
 		rowsData.addAll(filteredData);
-		
 		rowsData.removeIf(s -> (s.length <= 1));
-		
-		
 		
 		//Filter out the rowsData from empty data lines
 		rowsData.removeIf(s -> 
 		(s.length <= 1) ||
 		(((s[0].isEmpty()) || s[0].equals(" ")) &&
-		 (s[1].isEmpty() || s[1].equals(" "))));
+		(s[1].isEmpty() || s[1].equals(" "))));
 			
 		return rowsData;
 	}
-	
+	/*
 	//returns -1 if data is root If the entry has no code (finds the first entry with one less -)
 	private static int findParentIndex(String[] data, ArrayList<String[]> dataList) 
 	{
@@ -400,8 +370,7 @@ public class GTIPManager
 				if((Arrays.equals(data, dataList.get(j))))
 				{
 					baseIndex = j;
-				}
-				
+				}	
 			}			
 			else //If baseIndex is found, find the first entry with the less "-" than the one at base index
 			{
@@ -418,6 +387,7 @@ public class GTIPManager
 						}
 						else//If it has a code, return it 
 						{
+							//currentLevel = org.apache.commons.lang3.StringUtils.countMatches(dataList.get(j-dec)[1], "-"); 
 							return j - dec;
 						}
 						
@@ -429,19 +399,92 @@ public class GTIPManager
 		}
 		return -1;		
 	}
+	*/
+	/**
+	 * Finds the given data's parent's index in terms of rows
+	 * @param data
+	 * @param dataList
+	 * @return
+	 */
+	private static int findParentIndex(String[] data, ArrayList<String[]> dataList) 
+	{
+		int data_index = -1;
+		int dataLevel = org.apache.commons.lang3.StringUtils.countMatches(data[1], "-");//Level is indicated by the number of dashes at the start of the descripiton
+		
+		//Find data index
+		for (int j = dataList.size() - 1; j >= 0; j--) 
+		{
+			if((Arrays.equals(data, dataList.get(j))))
+			{
+				data_index = j;
+				break;
+			}	
+		}
+		
+		//If no index is found, something is wrong
+		if(data_index == -1) {return -1;}
+		
+		
+		//Find the parent index
+		for(int j = data_index; j >= 0; j--) 
+		{
+			//Check if the current data at j starts with a code (not null not empty and contains atleast one '.')
+			if((dataList.get(j)[0] != null) && (!dataList.get(j)[0].isEmpty()) && ((dataList.get(j)[0].contains(".")))) 
+			{
 
-	
-	public static double stringSimilarity(String s1, String s2, LevenshteinDistance dist) {
+				int currentDataLevel = -1;
+				String[] substringsofchars = dataList.get(j)[1].split("[a-zA-Z]");
+				if(substringsofchars.length > 0) 
+				{
+					currentDataLevel = org.apache.commons.lang3.StringUtils.countMatches(substringsofchars[0], "-");
+				}
+				else
+				{
+					currentDataLevel = 0;
+				}
+
+				//if the level is lower than what we started with, we found the parent (lack of code eliminates extended )
+				if(currentDataLevel < dataLevel) 
+				{
+					return (j);
+				}
+				
+			}
+			
+			
+		}
+		return -1;
+		
+		
+		
+		
+	}
+
+	/**
+	 * Levenshtein string distance
+	 * @param s1
+	 * @param s2
+	 * @param dist
+	 * @return
+	 */
+	public static double stringSimilarity(String s1, String s2, LevenshteinDistance dist) 
+	{
 		  String longer = s1, shorter = s2;
-		  if (s1.length() < s2.length()) { // longer should always have greater length
+		  if (s1.length() < s2.length()) 
+		  { 
 		    longer = s2; shorter = s1;
 		  }
-		  //LevenshteinDistance dist = new LevenshteinDistance();
 		  int longerLength = longer.length();
-		  if (longerLength == 0) { return 1.0; /* both strings are zero length */ }
+		  if (longerLength == 0) { return 1.0;}
 		  return (longerLength -  dist.apply(longer, shorter)) / (double) longerLength;
-		}
+	}
 	
+	/**
+	 * Finds the parent data, given the index of the base
+	 * @param rowsData
+	 * @param baseindex
+	 * @return
+	 */
 	private static String[] findParent(ArrayList<String[]> rowsData, int baseindex) 
 	{
 		//Find parent
@@ -456,50 +499,55 @@ public class GTIPManager
 			{
 				parent = findParent(rowsData, parentIndex);
 			}
-	    	
 	    }
-	    
 	    return parent;
 	    
 	}
 	
-	
+	/**
+	 * Generates Hextuples from the given XLS GTIP file
+	 * @param dir
+	 * @param startingrow
+	 * @return
+	 * @throws IOException
+	 */
 	static ArrayList<Hextuple> genHextuplesFromSingleXLS(String dir, int startingrow) throws IOException
 	{
 		ArrayList<String[]> rowsData = getDataList(dir, startingrow);
 		ArrayList<Hextuple> outputData = new ArrayList<Hextuple>();
 		
-		int lastRootIndex = -1;
+		boolean firstLineFound = false;
 		
 		//for(String[] dataArray : rowsData) 
 		for(int i = 0; i < rowsData.size(); i++)
 		{
+			if((!firstLineFound)) 
+			{
+				if( (rowsData.get(i)[0].contains("."))) {firstLineFound=true;}//This line attempts to skip excel rows until the first actual line with any code is found
+				else { continue; }
+			}
+		
 			
 			String code = rowsData.get(i)[0];
 			String description = rowsData.get(i)[1];
 			int level = org.apache.commons.lang3.StringUtils.countMatches(description, "-");
 			int selectable = -1;
-			int booter = rowsData.size();
 			String[] parent = findParent(rowsData, i);	//Find parent of the current item
 			
 			
-		    	
 			//Check the description to be correct, combine rows if necessery (if the following row descriptions doesnt contains '-')
 		    int desct = 1;
 		    if( !(rowsData.size() <= i || rowsData.get(i) == null))
 		    {
-		    	while((i != rowsData.size()-1) && (!rowsData.get(i + desct)[1].replace(" ", "").startsWith("-")) && (rowsData.get(i + desct)[0].isEmpty())) //following row "desct" doesnt contain - and code column is empty
+		    	while((i != rowsData.size()-1) && (!(rowsData.get(i + desct)[1].replaceAll(" ", "").replaceAll("'", "").startsWith("-"))) && (rowsData.get(i + desct)[0].isEmpty())) //following row "desct" doesnt contain - and code column is empty
 				{
 					description += rowsData.get(i + desct)[1];
 					desct++;
 					
 					if(i + desct >= rowsData.size() || rowsData.get(i + desct) == null) {break;}
-					
 				}
 		    }
 			
-		    
-		    
 			//Normalize Description
 			if(description.contains("-")) 
 			{
@@ -524,12 +572,10 @@ public class GTIPManager
 
 			Hextuple pip = new Hextuple(code, description, dir, level+"", selectable+"", parent);//parent[1]);
 			outputData.add(pip);//currentCode, currentDescription, currentFile, currentLevel, currentSelectable
-			//System.out.println(code + " " + description + " " + dir + " " + level + " " + selectable + " " + i);
+			
 			//Skip desct# - 1 lines, since they are empty
 			i += desct - 1;
-			
 		}
-		
 		return outputData;
 	}
 	
@@ -549,6 +595,7 @@ public class GTIPManager
 		
 		for(String file: allFiles) 
 		{
+			//Some excel files randomly start at a different index.
 			int startRow = 5;
 			if(file.contains("99")) {startRow = 9;}
 			if(file.contains("29")) {startRow = 8;}
@@ -559,7 +606,15 @@ public class GTIPManager
 		return Hextuples;
 	}
 	
-	
+	/**
+	 * Creates hextuples from the given XML GTIP file
+	 * @param scanDir
+	 * @param removePeriods
+	 * @return
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 */
 	static ArrayList<Hextuple> genHextuplesFromXML(String scanDir, boolean removePeriods) throws IOException, ParserConfigurationException, SAXException {
 		
 		List<String> allFiles = findFiles(scanDir, "gtip", ".xml");

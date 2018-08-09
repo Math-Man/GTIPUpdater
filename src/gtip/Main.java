@@ -1,50 +1,23 @@
 package gtip;
 
 import java.awt.AWTException;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jsoup.Connection;
-import org.jsoup.Connection.Response;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.xml.sax.SAXException;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException, AWTException, ParserConfigurationException, SAXException, InterruptedException, ExecutionException, TransformerException {
-		// TODO Auto-generated method stub
+		
+		
 		
 		ArrayList<Hextuple> ott = GTIPManager.genHextuplesFromSingleXLS("2018012.xls", 5);
 		
@@ -62,12 +35,13 @@ public class Main {
 		for(String file : allFiles) 
 		{
 			int startRow = 5;
-			if(file.contains("99")) {startRow = 9;}
-			if(file.contains("29")) {startRow = 8;}
+			//if(file.contains("99")) {startRow = 9;}
+			//if(file.contains("29")) {startRow = 8;}
+
 			
 			ArrayList<Hextuple> ouchie = GTIPManager.genHextuplesFromSingleXLS(file, startRow);
 			builder.createEntriesFromList(ouchie);
-			builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + indx + ".xml");
+			builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + (Paths.get(file).getFileName().toString().replaceAll("[a-zA-Zığöüçş,.'\"*]", "")) + ".xml");
 			builder.wipeXml();
 			indx++;
 		}
@@ -86,6 +60,9 @@ public class Main {
 		
 		tot.clear();
 		ott.clear();
+		
+		
+		
 		/*
 		HSSFWorkbook workbook = ExcelUtil.OpenExcelWorkbook("2018012.xls");
 		HSSFSheet worksheet = workbook.getSheet("Sheet1");
@@ -180,32 +157,6 @@ r.keyPress(KeyEvent.VK_TAB);
 	    
 	}
 	
-	private static int findParentIndex(String[] data, ArrayList<String[]> dataList) 
-	{
-		int baseIndex = -1;
-		int dataLevel = org.apache.commons.lang3.StringUtils.countMatches(data[1], "-");
-		
-		for (int j = dataList.size() - 1; j >= 0; j--) 
-		{
-			if((baseIndex == -1)) 
-			{
-				if((Arrays.equals(data, dataList.get(j))))
-				{
-					baseIndex = j;
-				}
-				
-			}			
-			else //If baseIndex is found, find the first entry with the less "-" than the one at base index
-			{
-				int currentLevel = org.apache.commons.lang3.StringUtils.countMatches(dataList.get(j)[1], "-"); 
-				if(currentLevel < dataLevel) //If the current level is lower than the original data level, we found the parent
-				{
-					return j;
-				}
-			}	
-		}
-		return -1;	
-	}
 
 	
 	

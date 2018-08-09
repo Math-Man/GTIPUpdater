@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<GTIPCODES>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9701</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Tamamen elle yapılmış yağlı boya, karakalem ve pastel resimler (49.06 pozisyonundaki çizimler ve elle boyanmış veya elle dekore edilmiş fabrikasyon ürünler hariç); kolajlar (yapıştırma resimler)ve benzeri dekoratif plakalar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>97.01</PARENTCODE>
+        <CODE>9701.10.00.00.00</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Yağlı boya, karakalem ve pastel resimler</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>97.01</PARENTCODE>
+        <CODE>9701.90</CODE>
+        <LEVEL_>1</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri:</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.10.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Çiçekler, çiçek goncaları ve tomurcuklar ile yapraklı dallar, ince dallar      ve bitkilerin diğer parçaları, otlar, yosunlar ve dikenlerden yapılmış      olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.20.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Plastik maddelerden yapılmış olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.30.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Ahşaptan yapılmış olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.40.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Tabii mantardan yapılmış olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.50.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Baskı yapılmış resim veya dekoratif motiflerle süslenmiş olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.60.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Mensucattan yapılmış olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.70.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Adi metallerden yapılmış olanlar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE>9701.90</PARENTCODE>
+        <CODE>9701.90.00.90.00</CODE>
+        <LEVEL_>2</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Diğerleri</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9702.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Orijinal gravürler, estamplar ve litoğrafyalar</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9703.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Heykel veya yontu sanatının orijinal eserleri (yapıldığı madde neolursa olsun)</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9704.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Kullanılmış veya kullanılmamış posta pulları, damga ve 'harç pulları, matbu posta pulu veya posta pulu yerine geçen damga taşıyan zarflar ve benzerleri (4907 pozisyonunda yer alanlar hariç)</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9705.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Zooloji, botanik, mineroloji, anatomiye ait veya tarihi, arkeolojik,paleontolojik, etnoğrafik veya nümizmatik bir değeri bulunankolleksiyon ve örnekler</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+    <GTIP>
+        <PARENTCODE/>
+        <CODE>9706.00.00.00.00</CODE>
+        <LEVEL_>0</LEVEL_>
+        <CODEEMPTY>0</CODEEMPTY>
+        <SELECTABLE>1</SELECTABLE>
+        <DESCRIPTION>
+            <INDEX_>1</INDEX_>
+            <DESCR>Eskiliği yüzyılı aşan antika eşya</DESCR>
+        </DESCRIPTION>
+    </GTIP>
+</GTIPCODES>

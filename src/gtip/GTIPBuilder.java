@@ -42,7 +42,10 @@ public class GTIPBuilder {
 		
 	}
 	
-	
+	/**
+	 * Creats a gtip entry
+	 * @param entry
+	 */
 	public void createEntry(Hextuple entry) 
 	{
 		
@@ -118,6 +121,10 @@ public class GTIPBuilder {
 		
 	}
 	
+	/**
+	 * Creates entries from the given hextuple list
+	 * @param c
+	 */
 	public void createEntriesFromList(Collection<Hextuple> c) 
 	{
 		for(Hextuple h : c) 
@@ -126,6 +133,10 @@ public class GTIPBuilder {
 		}
 	}
 	
+	/**
+	 * Wipes the memory of the builder object
+	 * @throws ParserConfigurationException
+	 */
 	public void wipeXml() throws ParserConfigurationException 
 	{
 		docFac = DocumentBuilderFactory.newInstance();
@@ -136,6 +147,11 @@ public class GTIPBuilder {
 		document.appendChild(root);
 	}
 	
+	/**
+	 * Saves the entries in the current memory to a file
+	 * @param dir
+	 * @throws TransformerException
+	 */
 	public void saveXml(String dir) throws TransformerException 
 	{
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

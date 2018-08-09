@@ -166,9 +166,10 @@ public class Form1 {
 						int indx = 0;
 						for(String file : xlsFiles) 
 						{
+							//Some excel files randomly start at a different index.
 							int startRow = 5;
-							if(file.contains("99")) {startRow = 9;}
-							if(file.contains("29")) {startRow = 8;}
+							//if(file.contains("99")) {startRow = 9;}
+							//if(file.contains("29")) {startRow = 8;}
 							
 							ArrayList<Hextuple> entrylist = null;
 							try {
@@ -178,7 +179,8 @@ public class Form1 {
 							}
 							builder.createEntriesFromList(entrylist);
 							try {
-								builder.saveXml(selection + "\\GTIP" + indx + ".xml");
+								builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + (Paths.get(file).getFileName().toString().replaceAll("[a-zA-Zığöüçş,.'\"*]", "")) + ".xml");
+								//builder.saveXml(selection + "\\GTIP" + indx + ".xml");
 							} catch (TransformerException e1) {
 								e1.printStackTrace();
 							}

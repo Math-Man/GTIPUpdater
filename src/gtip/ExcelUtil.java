@@ -1,6 +1,5 @@
 package gtip;
 
-import java.awt.geom.Area;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -114,7 +113,6 @@ public class ExcelUtil {
 			DataFormatter formatter = new DataFormatter();
 			String value = formatter.formatCellValue(c);
 
-			//c.getStringCellValue()
 			data.add(value);
 		}
 		String[] dataArray = new String[data.size()];
@@ -282,7 +280,7 @@ public class ExcelUtil {
 		}
 		return changeCount;
 	}
-	//TODO: Take row from sheet and paint 
+	
 	public static void markLastRow( CellStyle style, HSSFWorkbook workbook, HSSFSheet worksheet) 
 	{
 		HSSFRow lastRow = worksheet.getRow(worksheet.getLastRowNum());
@@ -330,7 +328,7 @@ public class ExcelUtil {
 		
 	}
 	
-	
+	/*
 	public void testfunc() throws FileNotFoundException, IOException 
 	{
  		 HSSFWorkbook workbook =  CreateExcelWorkbook();
@@ -352,7 +350,7 @@ public class ExcelUtil {
 		 
 		 markMatches("[d]", genBasicCellStyle(IndexedColors.BRIGHT_GREEN, HSSFColorPredefined.YELLOW, IAMBACK), 0, IAMBACK, IAMBACK.getSheet("sheet1test"));
 		 SaveWorkbook(IAMBACK, "D:\\eXCEL\\testSheet2.xls"); 
-	 }
+	 }*/
 
 	
 }
