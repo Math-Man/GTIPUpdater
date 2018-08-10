@@ -34,6 +34,8 @@ public class Form1 {
 	private ArrayList<Hextuple> xmlData;
 	private List<String> xlsFiles;
 	
+	
+	//http://ggm.gtb.gov.tr/mevzuat/turk-gumruk-tarife-cetveli/2018-turk-gumruk-tarife-cetveli
 	/**
 	 * Launch the application.
 	 */
