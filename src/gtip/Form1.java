@@ -115,11 +115,11 @@ public class Form1 {
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				lbInfo.setText("Working...");
+				
 				if(xlsData == null || xmlData == null) {lbInfo.setText("Scan for entries first!");}
 				else 
 				{
-					
+					lbInfo.setText("Working...");
 					ArrayList<MatchInfo> diffs = null;
 					try {
 						diffs = GTIPManager.findDifferences(xlsData, xmlData, ( (((double)toleranceSlider.getValue()))/100), chcbUseAdvancedComparer.isSelected());

@@ -84,7 +84,7 @@ public class GTIPBuilder {
 					str.insert(i, ".");
 				}*/
 				//code = str.toString();
-				code = code.replaceAll("(.{2})", "$1.").replaceFirst(".$", "").replaceFirst("[.]", "");
+				code = code.replaceAll("(.{2})", "$1.").replaceFirst(".$", "").replaceFirst("[.]", "");//Inserts a dot every two characters, skips the first dot
 			}
 			Element Code = document.createElement("CODE");
 			Code.appendChild(document.createTextNode( code ));
@@ -161,6 +161,9 @@ public class GTIPBuilder {
 
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+		//transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		//transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+		//transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		// Output to console for testing
 		// StreamResult result = new StreamResult(System.out);

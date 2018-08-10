@@ -57,11 +57,7 @@ public class Main {
 		ArrayList<MatchInfo> diffs = GTIPManager.findDifferences(dat, tot, 0.85, true);
 		
 		GTIPManager.generateReport(diffs);
-		
-		tot.clear();
-		ott.clear();
-		
-		
+
 		
 		/*
 		HSSFWorkbook workbook = ExcelUtil.OpenExcelWorkbook("2018012.xls");

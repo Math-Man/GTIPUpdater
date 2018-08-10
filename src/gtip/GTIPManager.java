@@ -63,7 +63,6 @@ public class GTIPManager
 		ExcelUtil.genBasicCellStyle(IndexedColors.YELLOW, HSSFColorPredefined.BLACK, workbook)
 		};
 		
-		
 		for(MatchInfo d : data) 
 		{
 			if(d.getPair1() == null) {d.setPair1(new Hextuple("","","","","",""));}
@@ -71,6 +70,7 @@ public class GTIPManager
 			
 			String[] dataArray=null;
 			
+			//Decide wheter or not to use parent code in place of normal code
 			if(d.displayParentCodeInstead && d.getPair1().getSixth() != null && ((String[])d.getPair1().getSixth())[0] != null) 
 			{
 				String parentCode = (String)((String[])d.getPair1().getSixth())[0].replace(".", "");
@@ -152,7 +152,6 @@ public class GTIPManager
 		{
 			futures.add(exec.submit(new Runnable() {
 			
-				
 				Instant t_s = Instant.now();
 				@Override
 				public void run() {
@@ -216,7 +215,7 @@ public class GTIPManager
 	 * @param p1
 	 * @param p2
 	 * @param descriptionClosenessTolerance
-	 * @return
+	 * @return matchlevel
 	 */
 	public static MatchLevel compareEntries(Hextuple p1, Hextuple p2, double descriptionClosenessTolerance, boolean useLevenshteinDistance) 
 	{
@@ -283,8 +282,8 @@ public class GTIPManager
 	}
 	
 	/**
-	 * enums with positive values determine finalizing find, a certain outcome (something that will stop the search)
-	 * enums with negative values determine an uncertain find, a possible outcome but not final, 
+	 * enums with positive values determine acceptable find, an easy to fix error such as slightly different description but same code etc.
+	 * enums with negative values determine an uncertain find, multiple mismatches in under the same entry etc.
 	 * higher the value more likely the outcome
 	 * @author Goktug.Kayacan
 	 *
@@ -341,7 +340,6 @@ public class GTIPManager
 				}
 			}
 			filteredData.add(s);
-			
 		}
 		
 		rowsData.clear();
@@ -356,50 +354,7 @@ public class GTIPManager
 			
 		return rowsData;
 	}
-	/*
-	//returns -1 if data is root If the entry has no code (finds the first entry with one less -)
-	private static int findParentIndex(String[] data, ArrayList<String[]> dataList) 
-	{
-		int baseIndex = -1;
-		int dataLevel = org.apache.commons.lang3.StringUtils.countMatches(data[1], "-");
-		
-		for (int j = dataList.size() - 1; j >= 0; j--) 
-		{
-			if((baseIndex == -1)) 
-			{
-				if((Arrays.equals(data, dataList.get(j))))
-				{
-					baseIndex = j;
-				}	
-			}			
-			else //If baseIndex is found, find the first entry with the less "-" than the one at base index
-			{
-				int currentLevel = org.apache.commons.lang3.StringUtils.countMatches(dataList.get(j)[1], "-"); 
-				if(currentLevel < dataLevel) //If the current level is lower than the original data level, we found the parent
-				{
-					//Check for multiline description, check rows with lower indexes if there is no code
-					int dec = 0;
-					while( ((j - dec >= 0))) 
-					{
-						if( dataList.get(j - dec)[0] == "" || dataList.get(j- dec)[0] == null) //If it has no code, increment dec
-						{
-							dec++;
-						}
-						else//If it has a code, return it 
-						{
-							//currentLevel = org.apache.commons.lang3.StringUtils.countMatches(dataList.get(j-dec)[1], "-"); 
-							return j - dec;
-						}
-						
-					}
-					
-					return j;
-				}
-			}	
-		}
-		return -1;		
-	}
-	*/
+
 	/**
 	 * Finds the given data's parent's index in terms of rows
 	 * @param data
@@ -419,11 +374,9 @@ public class GTIPManager
 				data_index = j;
 				break;
 			}	
-		}
-		
+		}	
 		//If no index is found, something is wrong
 		if(data_index == -1) {return -1;}
-		
 		
 		//Find the parent index
 		for(int j = data_index; j >= 0; j--) 
@@ -448,16 +401,9 @@ public class GTIPManager
 				{
 					return (j);
 				}
-				
 			}
-			
-			
 		}
 		return -1;
-		
-		
-		
-		
 	}
 
 	/**
@@ -501,7 +447,6 @@ public class GTIPManager
 			}
 	    }
 	    return parent;
-	    
 	}
 	
 	/**
@@ -527,7 +472,6 @@ public class GTIPManager
 				else { continue; }
 			}
 		
-			
 			String code = rowsData.get(i)[0];
 			String description = rowsData.get(i)[1];
 			int level = org.apache.commons.lang3.StringUtils.countMatches(description, "-");
@@ -597,8 +541,8 @@ public class GTIPManager
 		{
 			//Some excel files randomly start at a different index.
 			int startRow = 5;
-			if(file.contains("99")) {startRow = 9;}
-			if(file.contains("29")) {startRow = 8;}
+			//if(file.contains("99")) {startRow = 9;}
+			//if(file.contains("29")) {startRow = 8;}
 			ArrayList<Hextuple> currentFileData = genHextuplesFromSingleXLS(file, startRow);
 			Hextuples.addAll(currentFileData);
 		}
@@ -666,7 +610,6 @@ public class GTIPManager
 							}
 						}
 					}
-					
 				}
 				//Add all tuples from all files to the list
 				Tuples.add(new Hextuple<String, String, String, String, String, String>(currentCode, currentDescription, currentFile, currentLevel, currentSelectable, ""));
@@ -682,7 +625,8 @@ public class GTIPManager
 	 * @return List of files
 	 * @throws IOException
 	 */
-	static List<String> findFiles(String scanDir, String pattern, String tail) throws IOException {
+	static List<String> findFiles(String scanDir, String pattern, String tail) throws IOException 
+	{
 		Stream<Path> paths = Files.walk(Paths.get(scanDir));
 		try 
 		{
@@ -699,7 +643,6 @@ public class GTIPManager
 				paths.close();
 			}
 		}
-		
 	}
 	
 

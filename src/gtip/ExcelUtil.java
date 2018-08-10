@@ -76,7 +76,12 @@ public class ExcelUtil {
 		return sheet;
 	}
 	
-	
+	/**
+	 * Returns an existing excel sheet
+	 * @param workbook
+	 * @param sheetName
+	 * @return
+	 */
 	public static HSSFSheet OpenExcelSheet(HSSFWorkbook workbook, String sheetName) 
 	{
 		HSSFSheet worksheet = workbook.getSheet(sheetName);
@@ -165,7 +170,13 @@ public class ExcelUtil {
 	}
 	
 	
-	
+	/**
+	 * Appends given string data to a new row and stylizes it
+	 * @param Data
+	 * @param style
+	 * @param workbook
+	 * @param worksheet
+	 */
 	public static void AppendAndStylize(String[] Data, CellStyle style, HSSFWorkbook workbook, HSSFSheet worksheet) 
 	{
 		//CreationHelper createHelper = workbook.getCreationHelper();
@@ -328,29 +339,7 @@ public class ExcelUtil {
 		
 	}
 	
-	/*
-	public void testfunc() throws FileNotFoundException, IOException 
-	{
- 		 HSSFWorkbook workbook =  CreateExcelWorkbook();
-		 HSSFSheet sheet = CreateExcelSheet(workbook, "sheet1test");
-		
-		 setColNames(new String[]{"colname1dddd d d", "colname2", "colnamek", "oof","fffff"}, workbook, sheet);
-		 AppendData(new String[]{"this", "is", "a" , "test", "!"}, workbook, sheet);
-		 AppendData(new String[] {"test", "d a t a", "t e s t", "data"}, workbook, sheet);
-		 AppendData(new String[] {"test", "d a t a", "data", "data"}, workbook, sheet);
-		 
-		
-		 
-		 markMatches("\\s", genBasicCellStyle(IndexedColors.RED, HSSFColorPredefined.PLUM, workbook), 2, workbook, sheet);
-		 
-		 SaveWorkbook(workbook, "D:\\eXCEL\\testSheet.xls"); 
-		 
-		 HSSFWorkbook IAMBACK = OpenExcelWorkbook("D:\\eXCEL\\testSheet.xls");
-		 AppendData(new String[] {"data", "d a t a", "test test test", "data"}, IAMBACK, IAMBACK.getSheet("sheet1test"));
-		 
-		 markMatches("[d]", genBasicCellStyle(IndexedColors.BRIGHT_GREEN, HSSFColorPredefined.YELLOW, IAMBACK), 0, IAMBACK, IAMBACK.getSheet("sheet1test"));
-		 SaveWorkbook(IAMBACK, "D:\\eXCEL\\testSheet2.xls"); 
-	 }*/
+
 
 	
 }
