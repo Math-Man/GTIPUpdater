@@ -181,8 +181,8 @@ public class Form1 {
 							}
 							builder.createEntriesFromList(entrylist);
 							try {
-								builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + (Paths.get(file).getFileName().toString().replaceAll("[a-zA-Zığöüçş,.'\"*]", "")) + ".xml");
-								//builder.saveXml(selection + "\\GTIP" + indx + ".xml");
+								//builder.saveXml("D:\\Projects\\GTIPW\\GTIPUpdater\\generatedGTIP\\GTIP" + (Paths.get(file).getFileName().toString().replaceAll("[a-zA-Zığöüçş,.'\"*]", "")) + ".xml");
+								builder.saveXml(selection + "\\GTIP" + indx + ".xml");
 							} catch (TransformerException e1) {
 								e1.printStackTrace();
 							}
